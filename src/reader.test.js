@@ -1,4 +1,4 @@
-const BufferReader = require('./index.js');
+const BufferReader = require('./reader.js');
 
 describe('buffer reader tests', () => {
     test('init test - normal', () => {
