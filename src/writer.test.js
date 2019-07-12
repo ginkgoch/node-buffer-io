@@ -1,4 +1,4 @@
-const BufferWriter = require('./writer')
+const { BufferWriter, BufferReader } = require('../index')
 
 describe('BufferWriter tests', () => {
 
@@ -33,5 +33,39 @@ describe('BufferWriter tests', () => {
 
         expect(bufferConcat.length).toBe(12)
         expect(Buffer.compare(bufferSlice, bufferConcat)).toBeTruthy()
+    })
+
+    it('demo 1', () => {
+        const buffer = Buffer.alloc(256)
+        const bufferWriter = new BufferWriter(buffer)
+        bufferWriter.writeDouble(12.5)
+        bufferWriter.writeDouble(67.7)
+
+        const bufferReader = new BufferReader(buffer)
+        let value = bufferReader.nextDouble()
+        expect(value).toBe(12.5)
+
+        value = bufferReader.nextDouble()
+        expect(value).toBe(67.7)
+    })
+
+    it('demo 2', () => {
+        const buffer = Buffer.alloc(16);
+        const bw = new BufferWriter(buffer);
+        bw.writeInt8(8);
+        bw.writeInt16(16);
+        bw.writeUInt32(32);
+        bw.writeDoubleBE(54.8765);
+
+        const br = new BufferReader(buffer);
+        let i1 = br.nextInt8();
+        let i2 = br.nextInt16();
+        let i3 = br.nextUInt32();
+        let i4 = br.nextDoubleBE();
+
+        expect(i1).toBe(8)
+        expect(i2).toBe(16)
+        expect(i3).toBe(32)
+        expect(i4).toBe(54.8765)
     })
 })
