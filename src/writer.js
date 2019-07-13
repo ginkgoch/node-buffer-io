@@ -103,7 +103,8 @@ module.exports = class BufferWriter {
 
     writeBuffer(buffer) {
         assert(buffer, 'Buffer cannot be null.')
-        this.buffer = Buffer.concat([this.buffer, buffer])
+
+        buffer.copy(this.buffer, this.offset)
         this.offset += buffer.length
         return this.offset
     }
