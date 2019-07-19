@@ -1,4 +1,4 @@
-const { BufferReader } = require('../index');
+const { BufferReader } = require('../src/index');
 
 describe('buffer reader tests', () => {
     test('init test - normal', () => {
@@ -69,8 +69,8 @@ describe('buffer reader tests', () => {
         const br = new BufferReader(Buffer.concat([buffer1, buffer2]));
         const nBuffer1 = br.nextBuffer(4);
         const nBuffer2 = br.nextBuffer(2);
-        expect(Buffer.compare(buffer1, nBuffer1, 0));
-        expect(Buffer.compare(buffer2, nBuffer2, 0));
+        expect(Buffer.compare(buffer1, nBuffer1)).toBe(0);
+        expect(Buffer.compare(buffer2, nBuffer2)).toBe(0);
     });
 
     test('nextString test - normal', () => {

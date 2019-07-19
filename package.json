@@ -1,10 +1,12 @@
 {
   "name": "ginkgoch-buffer-io",
-  "version": "1.0.2",
-  "main": "index.js",
+  "version": "1.1.0",
+  "main": "built/index.js",
+  "types": "built/index.d.ts",
   "homepage": "https://github.com/ginkgoch/node-buffer-io",
   "scripts": {
-    "test": "./node_modules/.bin/jest"
+    "test": "jest",
+    "build": "./node_modules/.bin/tsc --build tsconfig.json"
   },
   "author": {
     "name": "Ginkgoch",
@@ -23,7 +25,12 @@
   "license": "MIT",
   "description": "This is a library to help to easily read and write Buffer instance.",
   "devDependencies": {
-    "jest": "^23.4.1"
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.6.8",
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
   },
   "repository": {
     "url": "https://github.com/ginkgoch/node-buffer-io.git",
