@@ -1,4 +1,4 @@
-const { BufferWriter, BufferReader } = require('../index')
+import { BufferWriter, BufferReader } from '../src/index';
 
 describe('BufferWriter tests', () => {
 
