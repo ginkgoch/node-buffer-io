@@ -1,13 +1,14 @@
 {
   "name": "ginkgoch-buffer-io",
-  "version": "1.1.0",
-  "main": "built/index.js",
-  "types": "built/index.d.ts",
+  "version": "1.1.1",
+  "main": "dist/bundle.js",
+  "types": "dist/index.d.ts",
   "homepage": "https://github.com/ginkgoch/node-buffer-io",
   "scripts": {
     "test": "jest",
     "build": "rm -rf built && ./node_modules/.bin/tsc --build tsconfig.json",
-    "build-prod": "rm -rf dist && ./node_modules/.bin/webpack"
+    "build-prod": "rm -rf dist && ./node_modules/.bin/webpack",
+    "clean": "rm -rf built && rm -rf dist"
   },
   "author": {
     "name": "Ginkgoch",
@@ -30,15 +31,13 @@
     "@babel/preset-env": "^7.3.1",
     "@types/jest": "^24.0.15",
     "@types/node": "^12.6.8",
-    "babel-loader": "^8.0.5",
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
     "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-cli": "^3.3.6"
   },
   "repository": {
     "url": "https://github.com/ginkgoch/node-buffer-io.git",
