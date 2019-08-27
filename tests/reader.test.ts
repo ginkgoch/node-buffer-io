@@ -17,24 +17,24 @@ describe('buffer reader tests', () => {
     test('seek from beginning - normal', () => {
         const buffer = Buffer.from([1, 2, 3, 4]);
         const br = new BufferReader(buffer);
-        expect(br.offset).toBe(0);
+        expect(br.position).toBe(0);
         expect(br.buffer).not.toBeNull();
         expect(br.buffer).not.toBeUndefined();
         br.seek(2);
-        expect(br.offset).toBe(2);
+        expect(br.position).toBe(2);
     });
 
     test('seek from current - normal', () => {
         const buffer = Buffer.from([1, 2, 3, 4]);
         const br = new BufferReader(buffer);
         br.seek(1);
-        expect(br.offset).toBe(1);
+        expect(br.position).toBe(1);
         br.seek(1, false);
-        expect(br.offset).toBe(2);
+        expect(br.position).toBe(2);
         br.seek(1, false);
-        expect(br.offset).toBe(3);
+        expect(br.position).toBe(3);
         br.seek(1);
-        expect(br.offset).toBe(1);
+        expect(br.position).toBe(1);
     });
 
     test('seek from beginning - out of range', () => {
