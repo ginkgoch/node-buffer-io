@@ -7,11 +7,11 @@ describe('BufferWriter tests', () => {
         const bw = new BufferWriter(buffer)
         let offset = bw.writeDoubleLE(16.9)
         expect(offset).toBe(8)
-        expect(offset).toBe(bw.offset)
+        expect(offset).toBe(bw.position)
 
         offset = bw.writeDoubleLE(67.9)
         expect(offset).toBe(16)
-        expect(offset).toBe(bw.offset)
+        expect(offset).toBe(bw.position)
     })
 
     it('WriteBuffer', () => {
@@ -22,12 +22,12 @@ describe('BufferWriter tests', () => {
         const bw = new BufferWriter(buffer)
         let offset = bw.writeBuffer(target1)
         expect(offset).toBe(6)
-        expect(offset).toBe(bw.offset)
+        expect(offset).toBe(bw.position)
         expect(buffer.length).toBe(256)
 
         offset = bw.writeBuffer(target2)
         expect(offset).toBe(12)
-        expect(offset).toBe(bw.offset)
+        expect(offset).toBe(bw.position)
 
         const bufferSlice = buffer.slice(0, 12)
         const bufferConcat = Buffer.concat([target1, target2])

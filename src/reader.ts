@@ -1,4 +1,5 @@
 import assert from 'assert';
+import calcOffset from './shared';
 
 export default class BufferReader {
     buffer: Buffer;
@@ -16,22 +17,7 @@ export default class BufferReader {
      * @param origin The seek origin. True means seeking from begining. False means seeking from current position. Default is True.
      */
     seek(offset: number, origin: boolean | 'begin' | 'current' | 'end' = true) {
-        if (typeof origin === 'boolean') {
-            if (!origin) {
-                offset += this.position;
-            }
-        }
-        else {
-            if (origin === 'current') {
-                offset += this.position;
-            }
-            else {
-                offset = this.buffer.length - offset;
-            }
-        }
-
-        this._checkOffsetInRange(offset);
-        this.position = offset;
+        this.position = calcOffset(offset, this.position, this.buffer.length, origin);
     }
 
     nextDouble(): number {
