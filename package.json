@@ -6,8 +6,7 @@
   "homepage": "https://github.com/ginkgoch/node-buffer-io",
   "scripts": {
     "test": "jest",
-    "build": "rm -rf built && ./node_modules/.bin/tsc --build tsconfig.json",
-    "build-prod": "rm -rf dist && ./node_modules/.bin/webpack",
+    "build": "rm -rf dist && ./node_modules/.bin/webpack",
     "clean": "rm -rf built && rm -rf dist"
   },
   "author": {
