@@ -69,4 +69,25 @@ describe('BufferWriter tests', () => {
         expect(i3).toBe(32)
         expect(i4).toBe(54.8765)
     })
+
+    it('position - write', () => {
+        const buffer = Buffer.alloc(256);
+        const bw = new BufferWriter(buffer);
+        expect(bw.position).toBe(0);
+
+        bw.writeUInt8(2);
+        expect(bw.position).toBe(1);
+
+        bw.writeUInt8(3);
+        expect(bw.position).toBe(2);
+
+        bw.writeString('hello');
+        expect(bw.position).toBe(7);
+
+        bw.writeString('hello');
+        expect(bw.position).toBe(12);
+
+        bw.writeBuffer(Buffer.from([4, 5]));
+        expect(bw.position).toBe(14);
+    });
 })
