@@ -115,7 +115,7 @@ export default class BufferWriter {
 
     writeString(str: string, encoding: BufferEncoding = 'utf-8') {
         let length = this.buffer.length - this.position
-        this.position = this.buffer.write(str, this.position, length, encoding)
+        this.position += this.buffer.write(str, this.position, length, encoding)
         return this.position
 
     }
