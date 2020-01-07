@@ -1,8 +1,9 @@
 import assert from 'assert';
+import calcOffset from './shared';
 
 export default class BufferWriter {
     buffer: Buffer;
-    offset: number;
+    position: number;
 
     /**
      *
@@ -12,16 +13,16 @@ export default class BufferWriter {
         assert(Buffer.isBuffer(buffer), 'Invalid buffer.');
 
         this.buffer = buffer
-        this.offset = 0
+        this.position = 0
     }
 
-    seek(offset: number, fromBeginning = true) {
-        if(!fromBeginning) {
-            offset += this.offset
-        }
-
-        this._checkOffsetInRange(offset)
-        this.offset = offset
+    /**
+     * 
+     * @param offset The offset to seek.
+     * @param origin The seek origin. True means seeking from begining. False means seeking from current position. Default is True.
+     */
+    seek(offset: number, origin: boolean | 'begin' | 'current' | 'end' = true) {
+        this.position = calcOffset(offset, this.position, this.buffer.length, origin);
     }
 
     writeDouble(value: number): number {
@@ -107,21 +108,21 @@ export default class BufferWriter {
     writeBuffer(buffer: Buffer): number {
         assert(buffer, 'Buffer cannot be null.')
 
-        buffer.copy(this.buffer, this.offset)
-        this.offset += buffer.length
-        return this.offset
+        buffer.copy(this.buffer, this.position)
+        this.position += buffer.length
+        return this.position
     }
 
     writeString(str: string, encoding: BufferEncoding = 'utf-8') {
-        let length = this.buffer.length - this.offset
-        this.offset = this.buffer.write(str, this.offset, length, encoding)
-        return this.offset
+        let length = this.buffer.length - this.position
+        this.position += this.buffer.write(str, this.position, length, encoding)
+        return this.position
 
     }
 
     _writeXX(type: string, value: number): number {
-        this.offset = this.buffer[`write${type}`](value, this.offset)
-        return this.offset
+        this.position = this.buffer[`write${type}`](value, this.position)
+        return this.position
     }
 
     _checkPositive(number: number, name = 'Length') {

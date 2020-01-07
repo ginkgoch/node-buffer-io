@@ -1,22 +1,23 @@
 import assert from 'assert';
+import calcOffset from './shared';
 
 export default class BufferReader {
     buffer: Buffer;
-    offset: number;
+    position: number;
 
     constructor(buffer: Buffer) {
         assert(Buffer.isBuffer(buffer), 'Invalid buffer.');
         this.buffer = buffer;
-        this.offset = 0;
+        this.position = 0;
     }
 
-    seek(offset: number, fromBeginning = true) {
-        if(!fromBeginning) {
-            offset += this.offset;
-        }
-
-        this._checkOffsetInRange(offset);
-        this.offset = offset;
+    /**
+     * 
+     * @param offset The offset to seek.
+     * @param origin The seek origin. True means seeking from begining. False means seeking from current position. Default is True.
+     */
+    seek(offset: number, origin: boolean | 'begin' | 'current' | 'end' = true) {
+        this.position = calcOffset(offset, this.position, this.buffer.length, origin);
     }
 
     nextDouble(): number {
@@ -26,7 +27,7 @@ export default class BufferReader {
     nextDoubleLE(): number {
         return this._nextXX('DoubleLE', 8);
     }
-    
+
     nextDoubleBE(): number {
         return this._nextXX('DoubleBE', 8);
     }
@@ -38,7 +39,7 @@ export default class BufferReader {
     nextFloatLE(): number {
         return this._nextXX('FloatLE', 4);
     }
-    
+
     nextFloatBE(): number {
         return this._nextXX('FloatBE', 4);
     }
@@ -50,7 +51,7 @@ export default class BufferReader {
     nextInt32LE(): number {
         return this._nextXX('Int32LE', 4);
     }
-    
+
     nextInt32BE(): number {
         return this._nextXX('Int32BE', 4);
     }
@@ -62,7 +63,7 @@ export default class BufferReader {
     nextUInt32LE(): number {
         return this._nextXX('UInt32LE', 4);
     }
-    
+
     nextUInt32BE(): number {
         return this._nextXX('UInt32BE', 4);
     }
@@ -74,7 +75,7 @@ export default class BufferReader {
     nextUInt16LE(): number {
         return this._nextXX('UInt16LE', 2);
     }
-    
+
     nextUInt16BE(): number {
         return this._nextXX('UInt16BE', 2);
     }
@@ -86,7 +87,7 @@ export default class BufferReader {
     nextInt16LE(): number {
         return this._nextXX('Int16LE', 2);
     }
-    
+
     nextInt16BE(): number {
         return this._nextXX('Int16BE', 2);
     }
@@ -101,27 +102,27 @@ export default class BufferReader {
 
     nextBuffer(length: number): Buffer {
         this._checkPositive(length);
-        this._checkOffsetInRange(this.offset + length);
+        this._checkOffsetInRange(this.position + length);
 
-        const buffer = this.buffer.slice(this.offset, this.offset + length);
-        this.offset += length;
+        const buffer = this.buffer.slice(this.position, this.position + length);
+        this.position += length;
         return buffer;
     }
 
     nextString(length: number, encoding = 'utf-8'): string {
         this._checkPositive(length);
-        this._checkOffsetInRange(this.offset + length);
-        const str = this.buffer.toString(encoding, this.offset, this.offset + length);
-        this.offset += length;
+        this._checkOffsetInRange(this.position + length);
+        const str = this.buffer.toString(encoding, this.position, this.position + length);
+        this.position += length;
         return str;
     }
 
     private _nextXX(type: string, size: number): any {
-        this._checkOffsetInRange(this.offset + size);
+        this._checkOffsetInRange(this.position + size);
 
         const methodName = `read${type}`;
-        const v = this.buffer[methodName](this.offset);
-        this.offset += size;
+        const v = this.buffer[methodName](this.position);
+        this.position += size;
         return v;
     }
 
